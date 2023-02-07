@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+             table tr th{
+            margin-left: 30px;
+            border: 1px solid black;
+            padding-right: 70px;
+            padding-bottom: 20px;
+            text-decoration-line:center;
+            text-align: center;
+        }
+        table{
+            border-radius: 1px ;
+            border: 3px solid black;
+            height: auto;
+          
+        }
+        td{
+            border: 1px solid black;
+        }
+        table tr td{
+            display: text-center;
+        }
+      
+        div button{
+            background-color: rgb(133, 130, 130);
+        }
+        .container{
+            background-color:aqua;
+           border: 2px solid  black;
+           width:400px;
+            
+        }
+        table thead tr th{
+            background-color: darkorange;
+        }
+        div h4{
+            color:crimson;
+        }
+        </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h4>Danh sách cập nhật mới nhất</h4>
+        </div>
+        <div>
+            <label for="">ID</label>
+            <br>
+            <input type="number" id="id">
+        </div>
+        <div>
+            <label for="">Tên sản phẩm</label>
+            <br>
+            <input type="text" id="nameproduct">
+        </div>
+        <div>
+            <label for="">Giá</label>
+            <br>
+            <input type="number" id="Price">
+        </div>
+        <div>
+            <label for="">Giá cũ</label>
+            <br>
+            <input type="number" id="Priceold">
+        </div>
+        <div>
+            <label for="">Danh mục</label>
+            <br>
+            <input type="text" id="dm">
+        </div>
+        <div>
+            <label for="">Thông tin</label>
+            <br>
+            <input type="text" id="inf">
+        </div>
+        <div>
+            <label for="">Hình ảnh</label>
+            <br>
+            <input img="image" id="image" href="#" src="">
+        </div>
+        <br>
+        <div >
+            <button onclick="Add()">Add</button>
+        </div>
+        <br>
+    </div>
+        <table class="table" >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Giá cũ</th>
+                    <th>Danh mục</th>
+                    <th>Thông tin</th>
+                    <th>Hình ảnh</th>
+                    <th>Sửa/Xóa</th>
+                </tr>
+            </thead>
+            <tbody id="render">
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            var data=[];
+            function Add(){
+                var item_id=document.getElementById("id").value;
+                var item_name=document.getElementById("nameproduct").value;
+                var item_price=document.getElementById("Price").value;
+                var item_priceold=document.getElementById("Priceold").value;
+                var item_dm=document.getElementById("dm").value;
+                var item_inf=document.getElementById("inf").value;
+                var item_img=document.getElementById("image").value;
+                var notify= {
+                    Id:item_id,
+                    name:item_name,
+                    price:item_price,
+                    priceold: item_priceold,
+                    categories: item_dm,
+                    infor: item_inf,
+                    img: item_img
+                }
+                let index=data.findIndex((data)=>data.Id==notify.Id)
+                if (index>=0){
+                    data.splice(index,1,notify);
+                }
+                else{
+                    data.push(notify);
+                }
+                
+                render();
+                clear();
+            }
+            function render(){
+                table=``
+                for(var i=0; i<data.length; i++){
+                    table +=`<tr>
+                        <td>${data[i].Id}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].price}</td>
+                        <td>${data[i]. priceold}</td>
+                        <td>${data[i].categories}</td>
+                        <td>${data[i].infor}</td>
+                        <td>${data[i].img}</td>
+                        <td><button onclick="editItem(${data[i].Id})">Edit<button>
+                            <button onclick="deleteItem(${data[i].Id})">Delete<button>
+                        </td>
+                        </tr>`
+                    }
+                    document.getElementById("render").innerHTML=table;
+            }
+            function clear(){
+                document.getElementById("id").value="";
+                document.getElementById("nameproduct").value="";
+                document.getElementById("Price").value="";
+                document.getElementById("Priceold").value="";
+                document.getElementById("dm").value="";
+                document.getElementById("inf").value="";
+                document.getElementById("image").value="";
+    
+            }
+            function deleteItem(id){
+                for(let i=0; i<data.length; i++){
+                     if(data[i].Id==id){
+                        data.splice(i,1);
+                        render();
+                     }
+                }
+            }
+            function editItem(id){
+                for(let i=0; i<data.length; i++){
+                     if(data[i].Id==id){
+                        document.getElementById("id").value=data[i].Id;
+                        clear();
+                     }
+                }
+            }
+        </script>
+    
+  
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
